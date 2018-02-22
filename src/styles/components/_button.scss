@@ -1,0 +1,19 @@
+.button {
+  background: $blue;
+  color: white;
+  border: none;
+  display: inline-block; //ブロック要素として扱う
+  font-size: $font-size-large;
+  font-weight: 300;
+  padding: $s-size;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.button--link {
+  background: none;
+}
+
+.button--secondary {
+  background: #888;
+}
