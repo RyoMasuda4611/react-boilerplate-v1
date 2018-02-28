@@ -2,11 +2,20 @@ const { app, server } = require('../server/server');
 const { Movie } = require('../server/models/movie');
 const request = require('supertest');
 
-beforeEach((done) => {
-    Movie.remove({}).then(() => {
-        server.close();
-        done();
-    });
+const movies = [
+  {
+    url: "this is youtube"
+  },
+  {
+    url: "this is youtube 2"
+  }
+]
+
+beforeEach( async (done) => {
+    await Movie.remove({})
+    await Movie.insertMany(movies);
+    server.close();
+    done();
 })
 
 describe('POST/ movies', () => {
@@ -17,7 +26,7 @@ describe('POST/ movies', () => {
    expect(response.body.url).toBe(url);
    try {
        var movie = await Movie.find();
-       expect(movie.length).toBe(1);
+       expect(movie.length).toBe(3);
        expect(movie[0].url).toBe(url);
        done();
    } catch(e) {
@@ -30,7 +39,17 @@ describe('POST/ movies', () => {
     expect(response.statusCode).toBe(400);
     try {
       var movies = await Movie.find();
-      expect(movies.length).toBe(0);
+      expect(movies.length).toBe(2);
+      done();
+    } catch(e) {
+      done(e);
+    }
+  });
+
+  test('should fetch all movies', async (done) => {
+    try {
+      const response = await request(app).get('/movies')
+      expect(response.body.movies.length).toBe(2);
       done();
     } catch(e) {
       done(e);
