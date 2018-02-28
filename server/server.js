@@ -44,7 +44,7 @@ app.get('/movies/:id', async (req, res) => {
       }
       res.status(404).send();
     } catch(e) {
-      res.status(404).send(e);
+      res.status(400).send(e);
   }
 }
 });

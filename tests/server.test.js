@@ -1,12 +1,15 @@
 const { app, server } = require('../server/server');
 const { Movie } = require('../server/models/movie');
+const { ObjectId } = require('mongodb');
 const request = require('supertest');
 
 const movies = [
   {
+    _id: new ObjectId(),
     url: "this is youtube"
   },
   {
+    _id: new ObjectId(),
     url: "this is youtube 2"
   }
 ]
@@ -55,4 +58,40 @@ describe('POST/ movies', () => {
       done(e);
     }
   });
+});
+
+describe('GET /movies/:id', () => {
+  test('should fetch movie', async (done) => {
+    try {
+      const response = await request(app).get(`/movies/${movies[0]._id.toHexString()}`);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.movie.url).toBe(movies[0].url);
+      done();
+    } catch(e) {
+      done(e);
+    }
+  });
+
+  test('should return 404 if movie is not found', async (done) => {
+    var id = new ObjectId().toHexString();
+    try {
+      const response = await request(app).get(`/movies/${id}`);
+      expect(response.statusCode).toBe(404);
+      done();
+    } catch(e) {
+      done(e);
+    }
+  });
+
+  test('should return 404 for non object id', async (done) => {
+    var id = 123;
+    try {
+      const response = await request(app).get(`/movies/${id}`);
+      expect(response.statusCode).toBe(404);
+      done();
+    } catch(e) {
+      done(e);
+    }
+  });
+
 });
