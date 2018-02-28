@@ -2,6 +2,7 @@ const path = require ('path');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const { ObjectId } = require('mongodb');
 const publicPath = path.join(__dirname, '..', 'public');
 const port = process.env.PORT || 3000;
 const { mongoose } = require('./db/mongoose');
@@ -29,6 +30,23 @@ app.get('/movies', async (req, res) => {
   } catch(e) {
     res.send(e);
   }
+});
+
+app.get('/movies/:id', async (req, res) => {
+  var id = req.params.id;
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).send();
+  } else {
+    try {
+      var movie = await Movie.findById(id);
+      if(movie) {
+        return res.send({movie});
+      }
+      res.status(404).send();
+    } catch(e) {
+      res.status(404).send(e);
+  }
+}
 });
 
 app.get('*', (req, res) => {
