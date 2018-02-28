@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 const { mongoose } = require('./db/mongoose');
 const { Movie } = require('./models/movie');
 
-// app.use(express.static(publicPath));
+app.use(express.static(publicPath));
 app.use(bodyParser.json());
 
 app.post('/movies', async (req, res) => {
@@ -22,11 +22,18 @@ app.post('/movies', async (req, res) => {
   }
 });
 
+app.get('/movies', async (req, res) => {
+  try {
+    var movies = await Movie.find();
+    res.send({movies});
+  } catch(e) {
+    res.send(e);
+  }
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(publicPath, 'index.html'));
 });
-
-console.log(port);
 
 var server = app.listen(port, () => {
   console.log('Server is up');
