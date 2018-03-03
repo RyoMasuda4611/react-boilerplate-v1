@@ -9,7 +9,6 @@ async function asyncForEach(array, callback) {
 }
  
 // 取得するもの =>　url, タグ
-
 // 個別ページへのリンク取得メソッド
 async function getIndivisualPageUrl (page) {
   return await page.$$eval('.article_content h3 a', elements => {

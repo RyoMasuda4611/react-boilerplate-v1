@@ -7,6 +7,15 @@ var Movie = mongoose.model('Movie', {
       trim: true,
       minlength: 1
     },
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 1
+    },
+    tags: {
+      type: array
+    }
     uploadedAt: {
       type: Number,
       default: null
