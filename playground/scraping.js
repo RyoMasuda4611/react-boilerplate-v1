@@ -62,7 +62,7 @@ puppeteer.launch().then(async browser => {
           url: await getMovieUrl(page),
           title: await getTitle(page),
           tags: await getTags(page)
-      })
+      });
       movie.save();
     });
   } catch(e) {

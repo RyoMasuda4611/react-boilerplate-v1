@@ -11,17 +11,17 @@ const { Movie } = require('./models/movie');
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
 
-app.post('/movies', async (req, res) => {
-  var movie = new Movie({
-    url: req.body.url
-  });
-  try {
-    var docs = await movie.save();
-    res.send(docs);
-  } catch(e) {
-    res.status(400).send(e);
-  }
-});
+// app.post('/movies', async (req, res) => {
+//   var movie = new Movie({
+//     url: req.body.url
+//   });
+//   try {
+//     var docs = await movie.save();
+//     res.send(docs);
+//   } catch(e) {
+//     res.status(400).send(e);
+//   }
+// });
 
 app.get('/movies', async (req, res) => {
   try {
