@@ -7,8 +7,7 @@ async function asyncForEach(array, callback) {
       await callback(array[index], index, array)
     }
 }
-
-//ここから下 poyoparaでのスクレイピング  
+ 
 // 取得するもの =>　url, タグ
 
 // 個別ページへのリンク取得メソッド
