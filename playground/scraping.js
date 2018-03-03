@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const config = require('./../server/config/config');
+const {Movie} = require('./../server/models/movie');
 
 // async each
 async function asyncForEach(array, callback) {
@@ -56,16 +57,16 @@ puppeteer.launch().then(async browser => {
 　  // 個別ページから各情報を取得
     await asyncForEach(indivisualUrls, async (url) => {
       await page.goto(url);
-      info = {};
-      info = { src: await getMovieUrl(page),
-               title: await getTitle(page),
-               tags: await getTags(page)
-             }
-      moviesInfo.push(info);
+      // データベースに保存
+      var movie = new Movie({
+          url: await getMovieUrl(page),
+          title: await getTitle(page),
+          tags: await getTags(page)
+      })
+      movie.save();
     });
   } catch(e) {
     await browser.close();
   }
-　 console.log(moviesInfo);
   await browser.close();
 });

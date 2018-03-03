@@ -14,8 +14,8 @@ var Movie = mongoose.model('Movie', {
       minlength: 1
     },
     tags: {
-      type: array
-    }
+      type: Array
+    },
     uploadedAt: {
       type: Number,
       default: null
